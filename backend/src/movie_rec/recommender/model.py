@@ -87,11 +87,34 @@ class Recommender:
         return [choice for choice, _score, _idx in results]
 
     def search(self, query: str, limit: int = 10) -> list[str]:
-        """Title search-as-you-type for the frontend."""
-        if not query.strip():
+        """Title search-as-you-type for the frontend.
+
+        Substring matches come first (best for type-ahead — "aveng" surfaces
+        "The Avengers"), ranked by where the match occurs then by title length;
+        fuzzy matches (typo tolerance) fill any remaining slots.
+        """
+        q = query.strip().lower()
+        if not q:
             return []
-        results = process.extract(query, self._titles, scorer=fuzz.WRatio, limit=limit)
-        return [choice for choice, score, _idx in results if score > 40]
+
+        substring = sorted(
+            (t for t in self._titles if q in t.lower()),
+            key=lambda t: (t.lower().find(q), len(t)),
+        )
+        results = substring[:limit]
+        if len(results) >= limit:
+            return results
+
+        seen = set(results)
+        for choice, score, _idx in process.extract(
+            query, self._titles, scorer=fuzz.WRatio, limit=limit * 2
+        ):
+            if score > 60 and choice not in seen:
+                results.append(choice)
+                seen.add(choice)
+            if len(results) >= limit:
+                break
+        return results
 
     def recommend(self, title: str, k: int = 10) -> list[Recommendation]:
         """Top-``k`` recommendations for ``title`` by blended score."""
