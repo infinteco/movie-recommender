@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.env
+
+# Data — never commit raw datasets (see README to fetch)
+backend/data/raw/
+*.csv
+!backend/tests/**/*.csv
+
+# Built recommender artifacts
+backend/artifacts/
+
+# Node / frontend
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Tooling
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
