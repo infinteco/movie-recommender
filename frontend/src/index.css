@@ -4,8 +4,44 @@
 
 :root {
   color-scheme: dark;
+  --gold: #f5c518;
+}
+
+html,
+body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
 }
 
 body {
-  @apply bg-slate-950 text-slate-100 antialiased;
+  @apply bg-[#0d0d0f] text-slate-100 antialiased;
+  background-image: radial-gradient(1200px 600px at 50% -10%, rgba(245, 197, 24, 0.08), transparent 60%);
+  background-attachment: fixed;
+}
+
+/* Shimmer for skeleton loaders */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+/* Hide scrollbar on horizontal rails but keep scroll */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
