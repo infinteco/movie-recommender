@@ -57,11 +57,19 @@ export default function App() {
             <p className="mb-4 text-sm text-slate-400">
               Because you searched{" "}
               <span className="font-medium text-slate-200">{data.resolved_title}</span> — showing{" "}
-              {data.count} recommendations.
+              {data.count} recommendations.{" "}
+              <span className="text-slate-500">Click any movie to explore further.</span>
             </p>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
               {data.results.map((m) => (
-                <MovieCard key={m.id} movie={m} />
+                <MovieCard
+                  key={m.id}
+                  movie={m}
+                  onExplore={(title) => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                    void run(title);
+                  }}
+                />
               ))}
             </div>
           </>

@@ -1,12 +1,23 @@
 import type { Recommendation } from "../types";
 
-/** A single recommendation card: poster (or placeholder), title, score, genres. */
-export function MovieCard({ movie }: { movie: Recommendation }) {
+/** A single recommendation card. Click it to explore recommendations for that film. */
+export function MovieCard({
+  movie,
+  onExplore,
+}: {
+  movie: Recommendation;
+  onExplore: (title: string) => void;
+}) {
   const year = movie.release_date ? movie.release_date.slice(0, 4) : null;
   const similarityPct = Math.round(movie.similarity * 100);
 
   return (
-    <div className="group flex flex-col overflow-hidden rounded-xl bg-slate-900 ring-1 ring-slate-800 transition hover:ring-indigo-500">
+    <button
+      type="button"
+      onClick={() => onExplore(movie.title)}
+      title={`Find movies similar to ${movie.title}`}
+      className="group flex flex-col overflow-hidden rounded-xl bg-slate-900 text-left ring-1 ring-slate-800 transition hover:ring-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+    >
       <div className="relative aspect-[2/3] w-full bg-slate-800">
         {movie.poster_url ? (
           <img
@@ -26,6 +37,12 @@ export function MovieCard({ movie }: { movie: Recommendation }) {
         >
           {similarityPct}% match
         </span>
+        {/* Hover affordance: this card is clickable to explore further. */}
+        <div className="pointer-events-none absolute inset-0 flex items-end justify-center bg-gradient-to-t from-black/70 to-transparent opacity-0 transition group-hover:opacity-100">
+          <span className="mb-3 rounded-full bg-indigo-600 px-3 py-1 text-xs font-medium text-white">
+            ▸ Find similar
+          </span>
+        </div>
       </div>
 
       <div className="flex flex-1 flex-col gap-1 p-3">
@@ -38,6 +55,6 @@ export function MovieCard({ movie }: { movie: Recommendation }) {
           <span className="shrink-0 text-amber-400">★ {movie.vote_average.toFixed(1)}</span>
         </div>
       </div>
-    </div>
+    </button>
   );
 }
