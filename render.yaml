@@ -1,0 +1,17 @@
+# Render Blueprint: deploy the recommender API as a Docker web service.
+# In Render: New + -> Blueprint -> pick this repo. The frontend deploys separately on Vercel.
+services:
+  - type: web
+    name: movie-recommender-api
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: MOVIEREC_RATE_LIMIT
+        value: 60/minute
+      # Optional: set a TMDB API key in the Render dashboard to enable poster images.
+      - key: MOVIEREC_TMDB_API_KEY
+        sync: false
