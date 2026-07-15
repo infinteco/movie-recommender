@@ -6,8 +6,12 @@ TF-IDF + cosine similarity on a combined tag field (overview, genres, keywords,
 top cast, director), **blended with an IMDb-style popularity score**, served by
 a FastAPI backend and a React + TypeScript + Tailwind frontend.
 
-- **Live demo (frontend):** _add your Vercel URL_
-- **Live API:** _add your Render/Railway URL_ (`/docs` for OpenAPI)
+- **Live demo (frontend):** https://movie-recommender-harshh30.vercel.app
+- **Live API:** https://movie-api-production-bdf9.up.railway.app ( `/docs` for OpenAPI )
+
+> The live demo currently runs on the **synthetic sample dataset** (6 movies), so
+> recommendations are limited until the real TMDB 5000 CSV is loaded (`movierec-load`)
+> and the backend rebuilt. The pipeline and API are otherwise fully functional.
 - **Stack:** Python 3.11 · scikit-learn · FastAPI · RapidFuzz · React · Vite · TypeScript · Tailwind · Docker
 
 > **Honesty note.** A content-based recommender has **no ground-truth accuracy**,
